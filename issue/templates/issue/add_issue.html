@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1 class="title">Registrar Incidencia</h1>
+
+  <form action="." method="post" id="app">
+    <div class="field">
+      <label class="label ">Tipo de incidencia</label>
+      <div class="control ">
+        <span class="select">
+          <select name="type" id="id_type">
+            <option value="Casa">Casa</option>
+            <option value="Objeto" selected>Objeto</option>
+            <option value="Auto">Auto</option>
+          </select>
+        </span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Descripción</label>
+      <div class="control ">
+        <textarea name="description" required id="id_description" cols="40" rows="10" class="textarea"></textarea>
+      </div>
+    </div>
+
+
+    <div class="box" v-for="(issueObject, index) in objects">
+      <h4 class="title is-4">
+        Objeto
+      </h4>
+
+      <a v-if="objects.length > 1" v-on:click="removeObject(index)" href="#">Eliminar</a>
+
+      <div class="field is-horizontal">
+        <div class="field-label" >
+          <label class="label">Nombre</label>
+        </div>
+        <div class="field-body">
+          <div class="control ">
+            <input v-model="issueObject.name" type="text" required class="input" />
+          </div>
+        </div>
+      </div>
+
+      <div class="field is-horizontal">
+        <div class="field-label" >
+          <label class="label">Cantidad</label>
+        </div>
+        <div class="field-body">
+          <div class="control ">
+            <input v-model="issueObject.quantity" type="number" required class="input" />
+          </div>
+        </div>
+      </div>
+
+      <div class="field is-horizontal">
+        <div class="field-label" >
+          <label class="label">Descripción</label>
+        </div>
+        <div class="field-body">
+          <div class="control ">
+            <textarea v-model="issueObject.description" required cols="40" rows="5" class="textarea"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="control">
+      <div class="button is-info" v-on:click="addObject">Agregar Objecto</div>
+    </div>
+
+    <div class="control">
+      <input class="button is-primary" type="submit" value="Enviar">
+    </div>
+  </form>
+
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        type: "",
+        description: "",
+        objects: [
+          { description: "", quantity: 1, name: "" }
+        ]
+      },
+      methods: {
+        addObject: function(){
+          this.objects.push({
+            description: "", quantity: 1, name: ""
+          })
+        },
+        removeObject: function (position) {
+          this.objects.splice(position, 1);
+        }
+      }
+    })
+  </script>
+
+{% endblock %}
