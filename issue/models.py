@@ -16,6 +16,9 @@ class Issue(models.Model):
     type = models.CharField(max_length=255, choices=TYPE_CHOICES, default="Objeto")
     description = models.TextField(default="")
 
+    def get_objects(self):
+        return self.issueobject_set.all()
+
 
 class IssueObject(models.Model):
     issue = models.ForeignKey(Issue)

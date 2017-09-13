@@ -9,3 +9,5 @@ ipython = "*"
 [packages]
 django = "*"
 django-common-helpers = "*"
+djangorestframework = "*"
+django-filter = "*"

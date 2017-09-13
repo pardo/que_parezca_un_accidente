@@ -70,7 +70,10 @@
     </div>
 
     <div class="control">
-      <input class="button is-primary" type="submit" value="Enviar">
+      <div class="button is-primary" v-on:click="submitIssue">
+        Envia
+      </div>
+
     </div>
   </form>
 
@@ -92,6 +95,15 @@
         },
         removeObject: function (position) {
           this.objects.splice(position, 1);
+        },
+        submitIssue: function () {
+          this.$http.post('/issues/', {
+            type: this.type,
+            description: this.description,
+            objects: this.objects
+          }).then(function (response) {
+            debugger
+          });
         }
       }
     })
