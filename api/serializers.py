@@ -45,5 +45,10 @@ class IssueSerializer(serializers.ModelSerializer):
         fields = (
             'type',
             'description',
-            'objects'
+            'objects',
+            'issue_date',
+            'uuid'
+        )
+        read_only = (
+            'uuid',
         )

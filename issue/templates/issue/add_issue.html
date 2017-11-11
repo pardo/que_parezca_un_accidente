@@ -7,7 +7,7 @@
       <label class="label ">Tipo de incidencia</label>
       <div class="control ">
         <span class="select">
-          <select name="type" id="id_type">
+          <select v-model="type" name="type" id="id_type">
             <option value="Casa">Casa</option>
             <option value="Objeto" selected>Objeto</option>
             <option value="Auto">Auto</option>
@@ -17,12 +17,24 @@
     </div>
 
     <div class="field">
-      <label class="label">Descripción</label>
+      <label class="label">Fecha de incidente</label>
       <div class="control ">
-        <textarea name="description" required id="id_description" cols="40" rows="10" class="textarea"></textarea>
+        <input v-model="issue_date" name="date" required id="id_date" type="date" />
+        <div v-if="!issue_date" class="help is-danger">
+          Este campo es requerido
+        </div>
       </div>
     </div>
 
+    <div class="field">
+      <label class="label">Descripción</label>
+      <div class="control ">
+        <textarea v-model="description" name="description" required id="id_description" cols="40" rows="10" class="textarea"></textarea>
+        <div v-if="description.length == 0" class="help is-danger">
+          Este campo es requerido
+        </div>
+      </div>
+    </div>
 
     <div class="box" v-for="(issueObject, index) in objects">
       <h4 class="title is-4">
@@ -38,6 +50,9 @@
         <div class="field-body">
           <div class="control ">
             <input v-model="issueObject.name" type="text" required class="input" />
+            <div v-if="issueObject.name.length == 0" class="help is-danger">
+              Este campo es requerido
+            </div>
           </div>
         </div>
       </div>
@@ -60,6 +75,10 @@
         <div class="field-body">
           <div class="control ">
             <textarea v-model="issueObject.description" required cols="40" rows="5" class="textarea"></textarea>
+            <div v-if="issueObject.description.length == 0" class="help is-danger">
+              Este campo es requerido
+            </div>
+
           </div>
         </div>
       </div>
@@ -73,15 +92,16 @@
       <div class="button is-primary" v-on:click="submitIssue">
         Envia
       </div>
-
     </div>
+
   </form>
 
   <script>
     var app = new Vue({
       el: '#app',
       data: {
-        type: "",
+        issueDone: null,
+        type: "Casa",
         description: "",
         objects: [
           { description: "", quantity: 1, name: "" }
@@ -97,12 +117,14 @@
           this.objects.splice(position, 1);
         },
         submitIssue: function () {
+          var that = this;
           this.$http.post('/issues/', {
             type: this.type,
             description: this.description,
-            objects: this.objects
-          }).then(function (response) {
-            debugger
+            objects: this.objects,
+            issue_date: this.issue_date
+          }).then(function success (response) {
+            this.issueDone = response.data;
           });
         }
       }
