@@ -19,4 +19,7 @@ class IssueViewSet(
     queryset = Issue.objects.all()
 
     def get_queryset(self):
+        state = self.request.GET.get('state')
+        if (state != None):
+            return Issue.objects.filter(state=state)
         return Issue.objects
