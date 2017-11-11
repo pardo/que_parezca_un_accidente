@@ -43,6 +43,7 @@ class IssueSerializer(serializers.ModelSerializer):
     class Meta:
         model = Issue
         fields = (
+            'id',
             'type',
             'description',
             'objects',
