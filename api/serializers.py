@@ -48,8 +48,17 @@ class IssueSerializer(serializers.ModelSerializer):
             'description',
             'objects',
             'issue_date',
-            'uuid'
+            'uuid',
+            'state',
+            'visado_date',
+            'revisado_date',
+            'aprobado_date',
+            'desaprobado_date',
         )
         read_only = (
             'uuid',
+            'visado_date',
+            'revisado_date',
+            'aprobado_date',
+            'desaprobado_date',
         )

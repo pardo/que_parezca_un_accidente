@@ -14,9 +14,22 @@ class Issue(models.Model):
         ("Auto", "Auto")
     )
 
+    STATES = (
+        ("Nuevo", "Nuevo"),
+        ("Visado", "Visado"),
+        ("Revisado", "Revisado"),
+        ("Aprobado", "Aprobado"),
+        ("Desaprobado", "Desaprobado")
+    )
+
     user = models.ForeignKey(User)
-    issue_date = models.DateField()
+    issue_date = models.DateField(null=True)
+    visado_date = models.DateField(null=True)
+    revisado_date = models.DateField(null=True)
+    aprobado_date = models.DateField(null=True)
+    desaprobado_date = models.DateField(null=True)
     type = models.CharField(max_length=255, choices=TYPE_CHOICES, default="Objeto")
+    state = models.CharField(max_length=255, choices=STATES, default="Nuevo")
     description = models.TextField(default="")
 
     def get_objects(self):
