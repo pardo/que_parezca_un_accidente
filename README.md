@@ -13,3 +13,9 @@ $ python manage.py createsuperuser
 $ python manage.py runserver
 
 Add users here http://localhost:8000/admin/auth/user/
+
+
+# actions
+
+`/usr/bin/curl --data '{"state": "Visado"}' -X PATCH  -H "Content-type: application/json" http://localhost:8000/issues/1/?token=bonita`
+

@@ -1,3 +1,4 @@
+import datetime
 import uuid
 
 from django.db import models
@@ -16,6 +17,7 @@ class Issue(models.Model):
 
     STATES = (
         ("Nuevo", "Nuevo"),
+        ("Tomado", "Tomado"),
         ("Visado", "Visado"),
         ("Revisado", "Revisado"),
         ("Aprobado", "Aprobado"),
@@ -24,10 +26,13 @@ class Issue(models.Model):
 
     user = models.ForeignKey(User)
     issue_date = models.DateField()
+
     visado_date = models.DateField(null=True, blank=True)
     revisado_date = models.DateField(null=True, blank=True)
+    tomado_date = models.DateField(null=True, blank=True)
     aprobado_date = models.DateField(null=True, blank=True)
     desaprobado_date = models.DateField(null=True, blank=True)
+
     type = models.CharField(max_length=255, choices=TYPE_CHOICES, default="Objeto")
     state = models.CharField(max_length=255, choices=STATES, default="Nuevo")
     description = models.TextField(default="")
@@ -38,6 +43,20 @@ class Issue(models.Model):
     @classmethod
     def get_by_uuid(self, uuid):
         return Issue.objects.first() #TODO
+
+    def save(self, *args, **kwargs):
+        if self.state == "Tomado" and self.tomado_date is None:
+            self.tomado_date = datetime.date.today()
+        if self.state == "Visado" and self.visado_date is None:
+            self.visado_date = datetime.date.today()
+        if self.state == "Revisado" and self.revisado_date is None:
+            self.revisado_date = datetime.date.today()
+        if self.state == "Aprobado" and self.aprobado_date is None:
+            self.aprobado_date= datetime.date.today()
+        if self.state == "Desaprobado" and self.desaprobado_date is None:
+            self.desaprobado_date = datetime.date.today()
+
+        return super(Issue, self).save(*args, **kwargs)
 
 class IssueObject(models.Model):
     issue = models.ForeignKey(Issue)

@@ -20,8 +20,35 @@ class IssueObjectSerializer(serializers.ModelSerializer):
 class IssueSerializer(serializers.ModelSerializer):
     objects = IssueObjectSerializer(source="get_objects", many=True)
 
+    class Meta:
+        model = Issue
+        fields = (
+            'id',
+            'type',
+            'description',
+            'objects',
+            'issue_date',
+            'uuid',
+            'state',
+            'tomado_date',
+            'visado_date',
+            'revisado_date',
+            'aprobado_date',
+            'desaprobado_date',
+        )
+        read_only = (
+            'uuid',
+            'tomado_date',
+            'visado_date',
+            'revisado_date',
+            'aprobado_date',
+            'desaprobado_date',
+        )
+
+
     def validate(self, attrs):
-        attrs["user"] = self.context["request"].user
+        if self.instance is None:
+            attrs["user"] = self.context["request"].user
         return attrs
 
     def create(self, validated_data):
@@ -40,25 +67,29 @@ class IssueSerializer(serializers.ModelSerializer):
 
         return instance
 
+
+class IssueSerializerPatch(serializers.ModelSerializer):
+    def get_data(self):
+        return IssueSerializer(self.instance, context=self.context).data
+
+    def set_data(self, val):
+        pass
+
+    data = property(get_data, set_data)
+
     class Meta:
         model = Issue
         fields = (
-            'id',
             'type',
-            'description',
-            'objects',
-            'issue_date',
-            'uuid',
             'state',
-            'visado_date',
-            'revisado_date',
-            'aprobado_date',
-            'desaprobado_date',
         )
         read_only = (
             'uuid',
-            'visado_date',
-            'revisado_date',
-            'aprobado_date',
-            'desaprobado_date',
         )
+
+        write_only = (
+            'type',
+            'state',
+        )
+
+
