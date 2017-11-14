@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+  <div id="app">
+    <div v-if="issues.length == 0">
+      No se registran incidencias
+    </div>
+    <div v-for="issue in issues">
+      <issue v-bind:issue="issue"></issue>
+    </div>
+  </div>
+
+  {% include "issue/issue_component.html" %}
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        issues: []
+      },
+      created: function () {
+        this.getIssues();
+      },
+      methods: {
+        getIssues: function () {
+          var that = this;
+          this.$http.get('/issues/').then(function success (response) {
+            this.issues = response.data;
+          });
+        }
+      }
+    })
+  </script>
+
+{% endblock %}

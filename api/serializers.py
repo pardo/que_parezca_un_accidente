@@ -19,6 +19,7 @@ class IssueObjectSerializer(serializers.ModelSerializer):
 
 class IssueSerializer(serializers.ModelSerializer):
     objects = IssueObjectSerializer(source="get_objects", many=True)
+    url = serializers.CharField(source="get_unique_url", read_only=True)
 
     class Meta:
         model = Issue
@@ -35,6 +36,7 @@ class IssueSerializer(serializers.ModelSerializer):
             'revisado_date',
             'aprobado_date',
             'desaprobado_date',
+            'url'
         )
         read_only = (
             'uuid',

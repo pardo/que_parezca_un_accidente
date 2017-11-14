@@ -12,11 +12,61 @@
 </head>
 
 <body>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        DSSD 2017
+      </h1>
+      <h2 class="subtitle">
+        Incidencias
+      </h2>
+    </div>
+  </div>
+</section>
+
+
+
+
 <section class="section">
   <div class="container">
-    {% block content %}
-      <a href="{% url "add_issue" %}">Registar Incidencia</a>
-    {% endblock %}
+
+    <div class="columns">
+      <div class="column is-one-third">
+
+        <aside class="menu">
+          {% if user.is_authenticated %}
+            <p class="menu-label">
+              General
+            </p>
+            <ul class="menu-list">
+              <li><a href="{% url "issue_list" %}">Mis Incidencias</a></li>
+              <li><a href="{% url "add_issue" %}">Registar Incidencia</a></li>
+            </ul>
+            <p class="menu-label">
+              Usuario
+            </p>
+            <ul class="menu-list">
+              <li><a href="/logout/?next=/">Salir</a></li>
+            </ul>
+          {% else %}
+            <p class="menu-label">
+              Usuario
+            </p>
+            <ul class="menu-list">
+              <li><a href="/login/?next=/">Ingresar</a></li>
+            </ul>
+          {% endif %}
+        </aside>
+      </div>
+
+      <div class="column">
+        {% block content %}
+        {% endblock %}
+      </div>
+    </div>
+
   </div>
 </section>
 </body>

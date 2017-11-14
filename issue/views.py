@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils.deprecation import MiddlewareMixin
 from rest_framework.authentication import BaseAuthentication
 from django.contrib.auth.models import User
@@ -7,10 +7,30 @@ from rest_framework import exceptions
 
 
 def home(request):
+    if request.user.is_authenticated():
+        return redirect(issue_list)
     return render(request, "base.html", {})
 
 def add_issue(request):
+    if not request.user.is_authenticated():
+        return redirect(home)
+
     return render(request, "issue/add_issue.html", {
+    })
+
+
+def issue_view(request, issue_uuid):
+    return render(request, "issue/view_issue.html", {
+        "issue_url": "/issues/%s/" % issue_uuid
+    })
+
+
+
+def issue_list(request):
+    if not request.user.is_authenticated():
+        return redirect(home)
+
+    return render(request, "issue/issue_list.html", {
     })
 
 

@@ -1,0 +1,58 @@
+{% verbatim %}
+<script type="text/x-template" id="issue-template">
+
+  <div class="card" style="margin-bottom: 20px">
+    <header class="card-header">
+      <p class="card-header-title">
+        <span style="padding-right: 5px">Incidencia {{ issue.id }}</span> <a v-bind:href="issue.url">Enlace Permanente</a>
+      </p>
+    </header>
+    <div class="card-content">
+      <div class="content">
+        <table class="table is-bordered is-fullwidth">
+          <tbody>
+          <tr>
+            <th style="width: 50px">Tipo:</th>
+            <td>{{ issue.type }}</td>
+          </tr>
+          <tr>
+            <th style="width: 50px">Descripción:</th>
+            <td>{{ issue.description }}</td>
+          </tr>
+          <tr>
+            <th style="width: 50px">Estado:</th>
+            <td>{{ issue.state }}</td>
+          </tr>
+          </tbody>
+        </table>
+
+        <table v-if="issue.objects.length > 0" class="table is-bordered is-fullwidth">
+          <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Cantidad</th>
+            <th>Descripción</th>
+          </tr>
+          </thead>
+
+          <tbody>
+          <tr v-for="obj in issue.objects">
+            <td>{{ obj.name}}</td>
+            <td>{{ obj.quantity}}</td>
+            <td>{{ obj.description}}</td>
+          </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+</script>
+{% endverbatim %}
+
+<script>
+  Vue.component('issue', {
+    template: '#issue-template',
+    props: ['issue']
+  });
+</script>

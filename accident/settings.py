@@ -142,3 +142,6 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
     )
 }
+
+
+DOMAIN = "http://localhost:8000"

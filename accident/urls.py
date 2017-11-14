@@ -25,7 +25,8 @@ router.register(r'issues', IssueViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url('^', include('django.contrib.auth.urls')),
     url(r'^', include('issue.urls')),
+    url(r'^', include(router.urls)),
 ]

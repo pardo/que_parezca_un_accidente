@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+
   <h1 class="title">Registrar Incidencia</h1>
 
   <form action="." method="post" id="app">
@@ -20,7 +21,7 @@
       <label class="label">Fecha de incidente</label>
       <div class="control ">
         <input v-model="issue_date" name="date" required id="id_date" type="date" />
-        <div v-if="!issue_date" class="help is-danger">
+        <div v-if="submitted && !issue_date" class="help is-danger">
           Este campo es requerido
         </div>
       </div>
@@ -30,18 +31,28 @@
       <label class="label">Descripción</label>
       <div class="control ">
         <textarea v-model="description" name="description" required id="id_description" cols="40" rows="10" class="textarea"></textarea>
-        <div v-if="description.length == 0" class="help is-danger">
+        <div v-if="submitted && description.length == 0" class="help is-danger">
           Este campo es requerido
         </div>
       </div>
     </div>
 
     <div class="box" v-for="(issueObject, index) in objects">
-      <h4 class="title is-4">
-        Objeto
-      </h4>
 
-      <a v-if="objects.length > 1" v-on:click="removeObject(index)" href="#">Eliminar</a>
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <h4 class="title is-4">Objeto</h4>
+
+          </div>
+
+        </div>
+        <div class="level-right">
+          <div class="level-item"></div>
+          <a v-if="objects.length > 1" v-on:click="removeObject(index)" href="#">Eliminar</a>
+        </div>
+      </div>
+
 
       <div class="field is-horizontal">
         <div class="field-label" >
@@ -50,7 +61,7 @@
         <div class="field-body">
           <div class="control ">
             <input v-model="issueObject.name" type="text" required class="input" />
-            <div v-if="issueObject.name.length == 0" class="help is-danger">
+            <div v-if="submitted && issueObject.name.length == 0" class="help is-danger">
               Este campo es requerido
             </div>
           </div>
@@ -75,7 +86,7 @@
         <div class="field-body">
           <div class="control ">
             <textarea v-model="issueObject.description" required cols="40" rows="5" class="textarea"></textarea>
-            <div v-if="issueObject.description.length == 0" class="help is-danger">
+            <div v-if="submitted && issueObject.description.length == 0" class="help is-danger">
               Este campo es requerido
             </div>
 
@@ -84,13 +95,12 @@
       </div>
     </div>
 
-    <div class="control">
-      <div class="button is-info" v-on:click="addObject">Agregar Objecto</div>
-    </div>
-
-    <div class="control">
-      <div class="button is-primary" v-on:click="submitIssue">
-        Envia
+    <div class="field is-grouped">
+      <div class="control">
+        <div class="button is-info" v-on:click="addObject">Agregar Objecto</div>
+      </div>
+      <div class="control">
+        <div class="button is-primary" v-bind:class="{'is-loading': loading }" v-on:click="submitIssue">Enviar</div>
       </div>
     </div>
 
@@ -103,6 +113,9 @@
         issueDone: null,
         type: "Casa",
         description: "",
+        loading: false,
+        submitted: false,
+        issue_date: null,
         objects: [
           { description: "", quantity: 1, name: "" }
         ]
@@ -116,17 +129,29 @@
         removeObject: function (position) {
           this.objects.splice(position, 1);
         },
+
         submitIssue: function () {
           var that = this;
+          if (this.loading) {
+            return
+          }
+          this.loading = true;
+
           this.$http.post('/issues/', {
             type: this.type,
             description: this.description,
             objects: this.objects,
             issue_date: this.issue_date
           }).then(function success (response) {
+            this.submitted = true;
+            window.location.replace(response.data.url);
             this.issueDone = response.data;
+          }, function error () {
+            this.submitted = true;
+            that.loading = false;
           });
         }
+
       }
     })
   </script>

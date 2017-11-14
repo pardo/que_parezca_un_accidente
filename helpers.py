@@ -2,38 +2,88 @@ import datetime
 from issue.models import Issue, IssueObject
 from django.contrib.auth.models import User
 
-
-def reset():
+def reset_issues():
     Issue.objects.update(state="Nuevo")
 
-
-def fixture():
+def create_issues(user):
     for tipo in dict(Issue.TYPE_CHOICES).values():
         issue = Issue.objects.create(
-            user=User.objects.first(),
+            user=user,
             type=tipo,
-            description=tipo + " quemada",
+            description=tipo + " se quemó",
             issue_date=datetime.date.today(),
         )
 
         IssueObject.objects.create(
             issue=issue,
-            name="Lorem " + tipo,
+            name="(1) tipo: " + tipo,
             quantity=1,
-            description="Lorem " + tipo
+            description="Incidente del objeto de tipo: " + tipo
         )
 
         IssueObject.objects.create(
             issue=issue,
-            name="Ipsum " + tipo,
+            name="(2) tipo: " + tipo,
             quantity=1,
-            description="Ipsum " + tipo
+            description="Incidente del objeto de tipo: " + tipo
         )
         IssueObject.objects.create(
-            issue = issue,
-            name="Dolor " + tipo,
+            issue=issue,
+            name="(3) tipo: " + tipo,
             quantity=1,
-            description="Dolor " + tipo
+            description="Incidente del objeto de tipo: " + tipo
         )
 
+
+def fixture():
+    user1 = User.objects.create(
+        email="usuario1@email.com",
+        username="usuario1",
+        first_name="Jorge",
+        last_name="Apellido",
+    )
+    user1.set_password("123")
+    user1.save()
+
+    user2 = User.objects.create(
+        email="usuario2@email.com",
+        username="usuario2",
+        first_name="Carlos",
+        last_name="Apellido",
+    )
+    user2.set_password("123")
+    user2.save()
+
+    user3 = User.objects.create(
+        email="usuario3@email.com",
+        username="usuario3",
+        first_name="Ignacio",
+        last_name="Apellido",
+    )
+    user3.set_password("123")
+    user3.save()
+
+    user4 = User.objects.create(
+        email="usuario4@email.com",
+        username="usuario4",
+        first_name="Andres",
+        last_name="Apellido",
+    )
+    user4.set_password("123")
+    user4.save()
+
+    admin = User.objects.create(
+        email="admin@admin.com",
+        username="admin",
+        first_name="admin",
+        last_name="admin",
+        is_staff=True,
+    )
+    admin.set_password("123")
+    admin.save()
+
+    create_issues(user1)
+    create_issues(user2)
+    create_issues(user3)
+    create_issues(user4)
 

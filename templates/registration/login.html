@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+
+  {% if form.errors %}
+    <p class="help is-danger">Información incorrecta.</p>
+  {% endif %}
+
+
+  <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+
+    <div class="field">
+      <label class="label">Usuario</label>
+      <div class="control">
+        <input class="input {% if form.errors %}is-danger{% endif %}" name="username" type="text" placeholder="usuario1">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Contraseña</label>
+      <div class="control">
+        <input class="input {% if form.errors %}is-danger{% endif %}" name="password" type="password" >
+      </div>
+    </div>
+    <input type="hidden" name="next" value="/" />
+
+
+    <div class="field is-grouped">
+      <div class="control">
+        <button class="button is-primary">Ingresar</button>
+      </div>
+    </div>
+  </form>
+
+{% endblock %}

@@ -1,8 +1,12 @@
 import datetime
 import uuid
 
+
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User, Group
+from django.urls.base import reverse
+
 
 class Issue(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
@@ -43,6 +47,9 @@ class Issue(models.Model):
     @classmethod
     def get_by_uuid(self, uuid):
         return Issue.objects.first() #TODO
+
+    def get_unique_url(self):
+        return settings.DOMAIN + reverse("issue_view", args=[self.uuid])
 
     def save(self, *args, **kwargs):
         if self.state == "Tomado" and self.tomado_date is None:
