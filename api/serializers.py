@@ -1,7 +1,18 @@
 from rest_framework import serializers
 
 from issue.models import Issue, IssueObject
+from django.contrib.auth.models import User
 
+class UserSerializer(serializers.ModelSerializer):
+    full_name = serializers.CharField(source="get_full_name")
+
+    class Meta:
+        model = User
+        fields = (
+            "id",
+            "email",
+            "full_name",
+        )
 
 class IssueObjectSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
@@ -20,6 +31,7 @@ class IssueObjectSerializer(serializers.ModelSerializer):
 class IssueSerializer(serializers.ModelSerializer):
     objects = IssueObjectSerializer(source="get_objects", many=True)
     url = serializers.CharField(source="get_unique_url", read_only=True)
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = Issue
@@ -36,7 +48,8 @@ class IssueSerializer(serializers.ModelSerializer):
             'revisado_date',
             'aprobado_date',
             'desaprobado_date',
-            'url'
+            'url',
+            'user'
         )
         read_only = (
             'uuid',

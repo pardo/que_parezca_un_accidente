@@ -37,7 +37,7 @@ def create_issues(user):
 
 def fixture():
     user1 = User.objects.create(
-        email="usuario1@email.com",
+        email="aseguradorassa+usuario1@gmail.com",
         username="usuario1",
         first_name="Jorge",
         last_name="Apellido",
@@ -46,7 +46,7 @@ def fixture():
     user1.save()
 
     user2 = User.objects.create(
-        email="usuario2@email.com",
+        email="aseguradorassa+usuario2@gmail.com",
         username="usuario2",
         first_name="Carlos",
         last_name="Apellido",
@@ -55,7 +55,7 @@ def fixture():
     user2.save()
 
     user3 = User.objects.create(
-        email="usuario3@email.com",
+        email="aseguradorassa+usuario3@gmail.com",
         username="usuario3",
         first_name="Ignacio",
         last_name="Apellido",
@@ -64,7 +64,7 @@ def fixture():
     user3.save()
 
     user4 = User.objects.create(
-        email="usuario4@email.com",
+        email="aseguradorassa+usuario4@gmail.com",
         username="usuario4",
         first_name="Andres",
         last_name="Apellido",
