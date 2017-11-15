@@ -23,7 +23,7 @@ class Issue(models.Model):
         ("Nuevo", "Nuevo"),
         ("Tomado", "Tomado"),
         ("Visado", "Visado"),
-        ("Revisado", "Revisado"),
+        ("Presupuestado", "Presupuestado"),
         ("Aprobado", "Aprobado"),
         ("Desaprobado", "Desaprobado")
     )
