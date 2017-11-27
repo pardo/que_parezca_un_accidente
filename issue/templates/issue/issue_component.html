@@ -44,6 +44,16 @@
           </tbody>
         </table>
 
+        <div v-if="!loadedImages" v-bind:class="{'is-loading': loading }" v-on:click="getImages" class="button">Cargar Imágenes</div>
+
+        <div v-if="loadedImages && images.length == 0">
+          No hay contenido disponible
+        </div>
+
+        <div v-if="loadedImages" v-for="image in images">
+          <img v-bind:src="image" width="200" style="width: 200px; height: auto; display: block">
+        </div>
+
       </div>
     </div>
   </div>
@@ -53,6 +63,27 @@
 <script>
   Vue.component('issue', {
     template: '#issue-template',
-    props: ['issue']
+    props: ['issue'],
+    data: function () {
+      return {
+        images: null,
+        loadedImages: false,
+        loading: false
+      }
+    },
+    methods: {
+      getImages: function () {
+        var that = this;
+        if (this.loading) {
+          return
+        }
+        this.loading = true;
+
+        this.$http.get('/issues/'+this.issue.id+'/images/').then(function success (response) {
+          that.images = response.data;
+          that.loadedImages = true;
+        });
+      }
+    }
   });
 </script>
