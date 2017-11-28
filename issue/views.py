@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.utils.deprecation import MiddlewareMixin
 from rest_framework.authentication import BaseAuthentication
 from django.contrib.auth.models import User
+from django.conf import settings
 from rest_framework import exceptions
 
 
@@ -47,7 +48,7 @@ class TokenBonita(BaseAuthentication):
     www_authenticate_realm = 'api'
 
     def authenticate(self, request):
-        if request.GET.get("token") == "bonita":
+        if request.GET.get("token") == settings.BONITA_TOKEN:
             return (User.objects.filter(is_staff=True).first(), None)
         elif "token" in request.GET:
             raise exceptions.AuthenticationFailed("Auth error")

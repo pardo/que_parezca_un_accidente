@@ -145,3 +145,6 @@ REST_FRAMEWORK = {
 
 
 DOMAIN = "http://localhost:8000"
+
+
+BONITA_TOKEN = "bonita"
