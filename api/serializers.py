@@ -49,7 +49,9 @@ class IssueSerializer(serializers.ModelSerializer):
             'aprobado_date',
             'desaprobado_date',
             'url',
-            'user'
+            'user',
+            'monto',
+            'case_id'
         )
         read_only = (
             'uuid',
@@ -97,6 +99,8 @@ class IssueSerializerPatch(serializers.ModelSerializer):
         fields = (
             'type',
             'state',
+            'monto',
+            'case_id'
         )
         read_only = (
             'uuid',
@@ -105,6 +109,8 @@ class IssueSerializerPatch(serializers.ModelSerializer):
         write_only = (
             'type',
             'state',
+            'monto',
+            'case_id'
         )
 
 

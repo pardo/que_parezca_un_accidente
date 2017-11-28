@@ -39,7 +39,7 @@ def fixture():
     user1 = User.objects.create(
         email="aseguradorassa+usuario1@gmail.com",
         username="usuario1",
-        first_name="Jorge",
+        first_name="Nombre Usuario1",
         last_name="Apellido",
     )
     user1.set_password("123")
@@ -57,7 +57,7 @@ def fixture():
     user3 = User.objects.create(
         email="aseguradorassa+usuario3@gmail.com",
         username="usuario3",
-        first_name="Ignacio",
+        first_name="Nombre Usuario2",
         last_name="Apellido",
     )
     user3.set_password("123")
@@ -66,7 +66,7 @@ def fixture():
     user4 = User.objects.create(
         email="aseguradorassa+usuario4@gmail.com",
         username="usuario4",
-        first_name="Andres",
+        first_name="Nombre Usuario4",
         last_name="Apellido",
     )
     user4.set_password("123")

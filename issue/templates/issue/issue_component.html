@@ -23,6 +23,10 @@
             <th style="width: 50px">Estado:</th>
             <td>{{ issue.state }}</td>
           </tr>
+          <tr v-if="issue.monto>0">
+            <th style="width: 50px">Monto:</th>
+            <td>{{ issue.monto }}</td>
+          </tr>
           </tbody>
         </table>
 

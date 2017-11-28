@@ -19,6 +19,7 @@ Add users here http://localhost:8000/admin/auth/user/
 
 `/usr/bin/curl --data '{"state": "Visado"}' -X PATCH -H "Content-type: application/json" http://localhost:8000/issues/1/?token=bonita`
 `/usr/bin/curl --data '{"type": "Auto"}' -X PATCH -H "Content-type: application/json" http://localhost:8000/issues/2/?token=bonita`
+`/usr/bin/curl --data '{"monto": "1000"}' -X PATCH -H "Content-type: application/json" http://localhost:8000/issues/27/?token=bonita`
 
 # to load some fixtures use the helpers
 

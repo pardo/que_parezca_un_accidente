@@ -1,7 +1,7 @@
 import datetime
 import uuid
 
-
+from decimal import Decimal
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User, Group
@@ -40,6 +40,8 @@ class Issue(models.Model):
     type = models.CharField(max_length=255, choices=TYPE_CHOICES, default="Objeto")
     state = models.CharField(max_length=255, choices=STATES, default="Nuevo")
     description = models.TextField(default="")
+    monto = models.DecimalField(decimal_places=2, max_digits=10, default=Decimal("0.0"))
+    case_id = models.CharField(max_length=30, default="")
 
     def get_objects(self):
         return self.issueobject_set.all()

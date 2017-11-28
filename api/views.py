@@ -48,12 +48,18 @@ class IssueViewSet(
 
     def get_queryset(self):
         state = self.request.GET.get('state')
-
-        if state is not None:
-            return Issue.objects.filter(state=state)
+        case_id = self.request.GET.get('case_id')
 
         if self.request.user.is_staff:
-            return Issue.objects.all()
+            qs = Issue.objects.all()
+
+            if state is not None:
+                qs = qs.filter(state=state)
+
+            if case_id is not None:
+                qs = qs.filter(case_id=case_id)
+
+            return qs
 
         return Issue.objects.filter(user=self.request.user)
 
